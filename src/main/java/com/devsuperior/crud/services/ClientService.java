@@ -33,7 +33,10 @@ public class ClientService {
 		return clientRepository.findAll(pageable).map(client -> new ClientDTO(client)).getContent();
 	}
 	
+	@Transactional
 	public ClientDTO create(ClientDTO clientDTO) {
-		
+		Client entity = clientDTO.converteToEntity();
+		clientRepository.save(entity);
+		return new ClientDTO(entity);
 	}
 }

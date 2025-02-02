@@ -11,6 +11,8 @@ import com.devsuperior.crud.entities.Client;
 import com.devsuperior.crud.repositories.ClientRepository;
 import com.devsuperior.crud.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ClientService {
 
@@ -38,5 +40,18 @@ public class ClientService {
 		Client entity = clientDTO.converteToEntity();
 		clientRepository.save(entity);
 		return new ClientDTO(entity);
+	}
+	
+	@Transactional
+	public ClientDTO update(Long id, ClientDTO clientDTO) {
+		try {
+			Client entity = clientRepository.getReferenceById(id);
+			clientDTO.converteToEntityUpdate(entity);
+			entity = clientRepository.save(entity);
+
+			return new ClientDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Recurso não encontrado.");
+		}
 	}
 }

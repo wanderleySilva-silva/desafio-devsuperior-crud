@@ -43,16 +43,17 @@ public class ClientDTO {
 	}
 
 	public Client converteToEntityUpdate(Client client) {
-		copyDtoToEntity(client);
-		return client;
+		return copyDtoToEntity(client);
 	}
 	
-	private void copyDtoToEntity(Client client) {
+	public Client copyDtoToEntity(Client client) {
 		client.setName(name);
 		client.setCpf(cpf);
 		client.setIncome(income);
 		client.setBirthDate(birthDate);
 		client.setChildren(children);
+		
+		return client;
 	}
 
 	public Long getId() {
